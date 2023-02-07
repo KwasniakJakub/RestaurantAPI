@@ -18,8 +18,19 @@ namespace RestaurantAPI.Controllers
             _restaurantService= restaurantService;
         }
 
-        [HttpPost]
+        [HttpDelete("{id}")]
+        public ActionResult Delete([FromRoute]int id)
+        {
+            var isDeleted = _restaurantService.Delete(id);
 
+            if (isDeleted)
+            {
+                return NoContent();
+            }  
+            return NotFound();
+        }
+
+        [HttpPost]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
             //sprawdzanie walidacji
