@@ -13,7 +13,7 @@ namespace RestaurantAPI.Entities
     public class RestaurantDbContext : DbContext
     {
         private string _connectionString = 
-            "Server=JAKUB-PC;Database=RestaurantDb;Trusted_connection=True;";
+            "Server=JAKUB-PC;Database=estaurantDb;Trusted_connection=True;";
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Address> Adresses { get; set; }
         public DbSet<Dish> Dishes { get; set; }
