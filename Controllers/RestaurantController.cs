@@ -10,7 +10,14 @@ using System.Linq;
 namespace RestaurantAPI.Controllers
 {
     [Route("api/restaurant")]
-    public class RestaurantController : ControllerBase
+    [ApiController]
+    //api controller sprawi że dla każdego zapytania u którego
+    //istnieje walidacja zostanie automatycznie wykonany poniższy kawałek kodu
+    //if(!ModelState.IsValid)
+    //   {
+    //   return BadRequest(ModelState);
+    //   }
+public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
         public RestaurantController(IRestaurantService restaurantService)
@@ -21,38 +28,23 @@ namespace RestaurantAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult Update([FromBody] UpdateRestaurantDto dto, [FromRoute] int id)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var isUpdated = _restaurantService.Update(id, dto);
-            if(!isUpdated) 
-            {
-                return NotFound();
-            }
+            
+             _restaurantService.Update(id, dto);
+            
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute]int id)
         {
-            var isDeleted = _restaurantService.Delete(id);
+            _restaurantService.Delete(id);
 
-            if (isDeleted)
-            {
-                return NoContent();
-            }  
-            return NotFound();
+            return NoContent();
         }
 
         [HttpPost]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-            //sprawdzanie walidacji
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             var id = _restaurantService.Create(dto);
             return Created($"/api/restaurant/{id}", null);
@@ -69,12 +61,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<RestaurantDto> Get([FromRoute] int id)
         {
-            var restaurant = _restaurantService.GetById(id);
-            
-            if (restaurant is null)
-            {
-                return NotFound();
-            }
+            var restaurant = _restaurantService.GetById(id);           
 
             return Ok(restaurant);
         }
