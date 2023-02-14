@@ -1,3 +1,4 @@
+using System.Text;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using RestaurantAPI.Entities;
 using RestaurantAPI.Middleware;
 using RestaurantAPI.Models;
@@ -27,6 +29,26 @@ namespace RestaurantAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var authenticationSettingsJwt = new AuthenticationSettings();
+            Configuration.GetSection("Authentication").Bind(authenticationSettingsJwt);
+
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = "Bearer";
+                option.DefaultScheme = "Bearer";
+                option.DefaultChallengeScheme = "Bearer";
+            }).AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false; //Nie wymuszamy od klienta 
+                cfg.SaveToken = true; //Dany token powinien zostaæ zapisany po stronie serwera
+                cfg.TokenValidationParameters = new TokenValidationParameters //parametry walidacji
+                {
+                    ValidIssuer = authenticationSettingsJwt.JwtIssuer,   //jwtissuer - wydawca tokenu
+                    ValidAudience = authenticationSettingsJwt.JwtIssuer, //jakie podmioty mog¹ u¿ywaæ tokenu
+                    IssuerSigningKey = new SymmetricSecurityKey(         //klucz prywatny 
+                        Encoding.UTF8.GetBytes(authenticationSettingsJwt.JwtKey)),
+                };
+            });
             services.AddControllers().AddFluentValidation();
             services.AddControllers();
             services.AddDbContext<RestaurantDbContext>();
@@ -54,6 +76,7 @@ namespace RestaurantAPI
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<RequestTimeMiddleware>();
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
