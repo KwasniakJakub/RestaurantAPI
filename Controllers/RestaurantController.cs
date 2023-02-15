@@ -1,11 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RestaurantAPI.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 
 namespace RestaurantAPI.Controllers
@@ -45,9 +41,10 @@ public class RestaurantController : ControllerBase
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        //Tylko użytkownicy o roli admin lub manager będą mogli wywołać tą metode
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-
             var id = _restaurantService.Create(dto);
             return Created($"/api/restaurant/{id}", null);
         }

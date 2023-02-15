@@ -67,10 +67,14 @@ namespace RestaurantAPI.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-                new Claim(ClaimTypes.Role, $"{user.Role}"),
-                new Claim("DateOfBirth", user.DateOfBirth.Value.ToString("yyy-MM-dd")),
+                new Claim(ClaimTypes.Role, $"{user.Role.Name}"),
+                new Claim("DateOfBirth", user.DateOfBirth.Value.ToString("yyyy-MM-dd")),
                 new Claim("Nationality", user.Nationality)
             };
+            //if (user.DateOfBirth != null)
+            //{
+            //    claims.Add(new Claim("DateOfBirth", user.DateOfBirth.Value.ToString("yyyy-MM-dd")));
+            //}
             //generowanie klucza prywatnego
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
             //generowanie kredencjałów

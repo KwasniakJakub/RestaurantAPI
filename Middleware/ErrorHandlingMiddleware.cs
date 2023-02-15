@@ -28,7 +28,7 @@ namespace RestaurantAPI.Middleware
             catch(NotFoundException notFoundException)
             {
                 context.Response.StatusCode = 404;
-                context.Response.WriteAsync(notFoundException.Message);
+                await context.Response.WriteAsync(notFoundException.Message);
             }
             catch (System.Exception e)
             {
