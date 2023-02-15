@@ -42,6 +42,7 @@ public class RestaurantController : ControllerBase
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager")]
         //Tylko użytkownicy o roli admin lub manager będą mogli wywołać tą metode
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
@@ -50,6 +51,7 @@ public class RestaurantController : ControllerBase
         }
         
         [HttpGet]
+        [Authorize(Policy = "HasNationality")]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
             var restaurantsDtos = _restaurantService.GetAll();

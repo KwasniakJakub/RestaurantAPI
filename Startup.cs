@@ -49,7 +49,12 @@ namespace RestaurantAPI
                         Encoding.UTF8.GetBytes(authenticationSettingsJwt.JwtKey)),
                 };
             });
-
+            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("HasNationality", builder => 
+                    builder.RequireClaim("Nationality"));
+            });
             services.AddSingleton(authenticationSettingsJwt);
             services.AddControllers().AddFluentValidation();
             services.AddControllers();
