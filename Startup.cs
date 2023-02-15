@@ -49,6 +49,8 @@ namespace RestaurantAPI
                         Encoding.UTF8.GetBytes(authenticationSettingsJwt.JwtKey)),
                 };
             });
+
+            services.AddSingleton(authenticationSettingsJwt);
             services.AddControllers().AddFluentValidation();
             services.AddControllers();
             services.AddDbContext<RestaurantDbContext>();
