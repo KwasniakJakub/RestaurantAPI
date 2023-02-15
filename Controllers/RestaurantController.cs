@@ -6,11 +6,13 @@ using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RestaurantAPI.Controllers
 {
     [Route("api/restaurant")]
     [ApiController]
+    [Authorize] // Wszystkie wywołania będą musiały zostać zautoryzowane
     //api controller sprawi że dla każdego zapytania u którego
     //istnieje walidacja zostanie automatycznie wykonany poniższy kawałek kodu
     //if(!ModelState.IsValid)
@@ -59,6 +61,7 @@ public class RestaurantController : ControllerBase
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]//Omijanie autoryzacji 
         public ActionResult<RestaurantDto> Get([FromRoute] int id)
         {
             var restaurant = _restaurantService.GetById(id);           
