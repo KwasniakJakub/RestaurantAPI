@@ -60,6 +60,8 @@ namespace RestaurantAPI
                     builder.AddRequirements(new MinimumAgeRequirement(20)));
             });
 
+            services.AddScoped<IUserContextService, UserContextService>();
+            services.AddHttpContextAccessor();
             services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
             services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
             services.AddSingleton(authenticationSettingsJwt);
