@@ -2,6 +2,7 @@
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 using System.Collections.Generic;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 namespace RestaurantAPI.Controllers
@@ -27,7 +28,7 @@ public class RestaurantController : ControllerBase
         public ActionResult Update([FromBody] UpdateRestaurantDto dto, [FromRoute] int id)
         {
             
-             _restaurantService.Update(id, dto);
+             _restaurantService.Update(id, dto, User);
             
             return Ok();
         }
@@ -35,18 +36,18 @@ public class RestaurantController : ControllerBase
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute]int id)
         {
-            _restaurantService.Delete(id);
+            _restaurantService.Delete(id, User);
 
             return NoContent();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager,Admin")]
         //Tylko użytkownicy o roli admin lub manager będą mogli wywołać tą metode
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-            var id = _restaurantService.Create(dto);
+            var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var id = _restaurantService.Create(dto,userId);
             return Created($"/api/restaurant/{id}", null);
         }
         

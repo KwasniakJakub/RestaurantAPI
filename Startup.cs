@@ -61,6 +61,7 @@ namespace RestaurantAPI
             });
 
             services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
+            services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
             services.AddSingleton(authenticationSettingsJwt);
             services.AddControllers().AddFluentValidation();
             services.AddControllers();

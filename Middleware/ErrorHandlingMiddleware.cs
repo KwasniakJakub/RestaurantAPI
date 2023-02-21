@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using RestaurantAPI.Exceptions;
 using System.Threading.Tasks;
@@ -19,6 +20,10 @@ namespace RestaurantAPI.Middleware
             try
             {
                 await next.Invoke(context);
+            }
+            catch (ForbidException forbidException)
+            {
+                context.Response.StatusCode = 403;
             }
             catch (BadRequestException badRequest)
             {

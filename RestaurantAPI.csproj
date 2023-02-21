@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Validators\" />
-    <Folder Include="Authorization\" />
   </ItemGroup>
 
 </Project>
