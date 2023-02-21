@@ -9,7 +9,7 @@ namespace RestaurantAPI.Controllers
 {
     [Route("api/restaurant")]
     [ApiController]
-    [Authorize] // Wszystkie wywołania będą musiały zostać zautoryzowane
+    //[Authorize] // Wszystkie wywołania będą musiały zostać zautoryzowane
     //api controller sprawi że dla każdego zapytania u którego
     //istnieje walidacja zostanie automatycznie wykonany poniższy kawałek kodu
     //if(!ModelState.IsValid)
@@ -42,7 +42,7 @@ public class RestaurantController : ControllerBase
         }
 
         [HttpPost]
-        [Authorize(Roles = "Manager,Admin")]
+        //[Authorize(Roles = "Manager,Admin")]
         //Tylko użytkownicy o roli admin lub manager będą mogli wywołać tą metode
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
@@ -52,16 +52,16 @@ public class RestaurantController : ControllerBase
         }
         
         [HttpGet]
-        [Authorize(Policy = "CreatedAtleast2Restaurants")]
-        public ActionResult<IEnumerable<RestaurantDto>> GetAll()
+        //[Authorize(Policy = "CreatedAtleast2Restaurants")]
+        public ActionResult<IEnumerable<RestaurantDto>> GetAll([FromQuery]string searchPhrase)
         {
-            var restaurantsDtos = _restaurantService.GetAll();
+            var restaurantsDtos = _restaurantService.GetAll(searchPhrase);
 
             return Ok(restaurantsDtos);
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]//Omijanie autoryzacji 
+        //[AllowAnonymous]//Omijanie autoryzacji 
         public ActionResult<RestaurantDto> Get([FromRoute] int id)
         {
             var restaurant = _restaurantService.GetById(id);           
