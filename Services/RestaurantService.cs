@@ -8,7 +8,6 @@ using RestaurantAPI.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using RestaurantAPI.Authorization;
 
@@ -108,6 +107,7 @@ namespace RestaurantAPI.Services
         public PagedResult<RestaurantDto> GetAll(RestaurantQuery query)
         {
             var baseQuery = _dbContext
+                    //Filtrowanie
                 .Restaurants
                 .Include(r => r.Address)
                 .Include(r => r.Dishes)
@@ -125,6 +125,7 @@ namespace RestaurantAPI.Services
 
                 var selectedColumn = columnsSelector[query.SortBy];
 
+                //Sortowanie
                 baseQuery = query.SortDirection == SortDirection.ASC
                     ? baseQuery.OrderBy(selectedColumn)
                     : baseQuery.OrderByDescending(selectedColumn);
