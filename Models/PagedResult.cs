@@ -11,9 +11,9 @@ namespace RestaurantAPI.Models
         public int ItemsTo { get; set; }
         public int TotalItemsCount { get; set; }
 
-        public PagedResult(List<T> Items, int totalCount, int pageSize, int pageNumber)
+        public PagedResult(List<T> items, int totalCount, int pageSize, int pageNumber)
         {
-            Items = Items;
+            Items = items;
             TotalItemsCount = totalCount;
             ItemFrom = pageSize * (pageNumber - 1) + 1;
             ItemsTo = ItemFrom + pageSize - 1;
