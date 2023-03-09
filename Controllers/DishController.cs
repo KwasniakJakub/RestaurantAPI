@@ -14,9 +14,10 @@ namespace RestaurantAPI.Controllers
         {
             _dishService = dishService;
         }
-        public ActionResult Delete([FromRoute] int restaurantId)
+        protected ActionResult Delete([FromRoute] int restaurantId)
         {
             _dishService.RemoveAll(restaurantId);
+
             return NoContent();
         }
 
@@ -41,8 +42,5 @@ namespace RestaurantAPI.Controllers
             var result = _dishService.GetAll(restaurantId);
             return Ok(result);
         }
-
-        
-
     }
 }
