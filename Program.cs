@@ -40,11 +40,11 @@ builder.Services.AddAuthentication(option =>
 }).AddJwtBearer(cfg =>
 {
     cfg.RequireHttpsMetadata = false; //Nie wymuszamy od klienta 
-    cfg.SaveToken = true; //Dany token powinien zostaæ zapisany po stronie serwera
+    cfg.SaveToken = true; //Dany token powinien zostaï¿½ zapisany po stronie serwera
     cfg.TokenValidationParameters = new TokenValidationParameters //parametry walidacji
     {
         ValidIssuer = authenticationSettingsJwt.JwtIssuer,   //jwtissuer - wydawca tokenu
-        ValidAudience = authenticationSettingsJwt.JwtIssuer, //jakie podmioty mog¹ u¿ywaæ tokenu
+        ValidAudience = authenticationSettingsJwt.JwtIssuer, //jakie podmioty mogï¿½ uï¿½ywaï¿½ tokenu
         IssuerSigningKey = new SymmetricSecurityKey(         //klucz prywatny 
             Encoding.UTF8.GetBytes(authenticationSettingsJwt.JwtKey)),
     };
@@ -103,7 +103,7 @@ seeder.Seed();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    app.UseDeveloperExceptionPage()
 }
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
