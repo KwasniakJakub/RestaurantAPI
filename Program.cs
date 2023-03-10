@@ -103,7 +103,7 @@ seeder.Seed();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage()
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
