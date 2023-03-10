@@ -1,4 +1,4 @@
-name: CII
+name: CI
 on:
   push: 
     branches : [ master-pipeline ]
@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core SDK
-      - uses: actions/setup-dotnet@v3.0.3
+        uses: actions/setup-dotnet@v3.0.3
         with:
           dotnet-version: 6.0.x
       - name: Restore dependencies
