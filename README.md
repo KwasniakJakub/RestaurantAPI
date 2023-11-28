@@ -64,12 +64,3 @@ Projekt ten to interfejs API do obsługi operacji na danych restauracji. Umożli
 ```bash
 dotnet build
 dotnet run
-
-##Konfiguracja
-
-Plik konfiguracyjny appsettings.json zawiera połączenie z bazą danych.
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=MyDatabase;Integrated Security=True;"
-  }
-}
